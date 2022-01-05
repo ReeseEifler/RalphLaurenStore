@@ -5,14 +5,18 @@ using UnityEngine;
 public class UserMovement : MonoBehaviour
 {
     public CharacterController controller;
-    public float speed = 5f;
+    [SerializeField] float speed = 5f;
     void Update()
+    {
+        MoveUser();
+    }
+
+    void MoveUser()
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        controller.Move(move * speed * Time.deltaTime);
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) z *= 2;
+        Vector3 move = transform.right * x + transform.forward * z, velocity = move * speed * Time.deltaTime;
+        controller.Move(velocity);
     }
 }
